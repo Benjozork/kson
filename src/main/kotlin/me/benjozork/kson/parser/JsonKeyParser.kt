@@ -2,14 +2,20 @@ package me.benjozork.kson.parser
 
 import java.io.StringReader
 
+/**
+ * Parses JSON entry keys. Not to be confused with [JsonValueParser]
+ * which takes care of actual string literal values.
+ */
 object JsonKeyParser {
 
     /**
+     * This is called to parse a JSON entry key. Not to be confused with [JsonValueParser]
+     * which takes care of actual string literal values.
      *
-     * @param reader StringReader
-     * @param startChar Char
+     * @param reader    the [StringReader] to read off of
+     * @param startChar the char being read at the moment this method was called
      *
-     * @return String
+     * @return the parsed key
      */
     fun readKey(reader: StringReader, startChar: Char): String {
 
