@@ -43,7 +43,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_KEY -> {
 
-                    if (currentChar == '\"') { // Found a key, parse it
+                    if (currentChar == Tokens.STRING_LITERAL_DELIM.char) { // Found a key, parse it
 
                         // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
                         // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
@@ -63,7 +63,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_VALUE -> {
 
-                    if (currentChar == ':') {
+                    if (currentChar == Tokens.VALUE_ASSIGNMENT.char) {
                         // Found a value, change state
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
