@@ -9,3 +9,6 @@ I wanted to use `gson` but it doesn't support kotlin nullability and sets everyt
 - (WIP) supports kotlin's nullability system
 - (WIP) uses annotations to customize parsing
 - (WIP) support for custom parsers
+
+## Java interop
+no
