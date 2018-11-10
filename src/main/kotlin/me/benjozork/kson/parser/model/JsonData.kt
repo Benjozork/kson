@@ -1,3 +1,3 @@
 package me.benjozork.kson.parser.model
 
-class JsonValue : JsonData()
+open class JsonData

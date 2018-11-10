@@ -1,4 +1,6 @@
 package me.benjozork.kson.parser.model
 
-class JsonEntry {
-}
+class JsonEntry (
+    val key:   String,
+    val value: Any
+)
