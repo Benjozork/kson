@@ -1,12 +1,13 @@
 package me.benjozork.kson.parser
 
+import me.benjozork.kson.parser.internal.StatefulCharReader
 import me.benjozork.kson.parser.model.JsonObject
 
 import java.lang.IllegalStateException
 
 object JsonObjectParser : Parser<JsonObject>() {
 
-    override fun read(reader: StatefulCharReader, startChar: Char): JsonObject {
+    override fun read(reader: StatefulCharReader): JsonObject {
 
         // Temp map and entry
         val tempMap = mutableMapOf<String, Any>()
@@ -17,18 +18,15 @@ object JsonObjectParser : Parser<JsonObject>() {
         // The current parsing state
         var currentState = ObjectState.WAITING_FOR_KEY
 
-        // Is reading complete ?
-        var readingComplete = false
-
         // The key to return
         var returnedObject: JsonObject
 
         // Current char being read
-        var currentChar = startChar
+        var currentChar = reader.currentChar()
 
         reader.read() // We already know the first char is {
 
-        readLoop@while (!readingComplete) {
+        readLoop@while (true) {
 
             // @TODO very temporary
             tempMap[tempKey] = tempValue
@@ -43,11 +41,11 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_KEY -> {
 
-                    if (currentChar == Tokens.STRING_LITERAL_DELIM.char) { // Found a key, parse it
+                    if (currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
 
                         // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
                         // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
-                        val key = JsonKeyParser.read(reader, currentChar)
+                        val key = JsonKeyParser.read(reader)
 
                         tempKey = key
 
@@ -63,7 +61,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_VALUE -> {
 
-                    if (currentChar == Tokens.VALUE_ASSIGNMENT.char) {
+                    if (currentChar == Token.VALUE_ASSIGNMENT.char) {
                         // Found a value, change state
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
@@ -79,7 +77,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                         // Parse the value
                         //val value = JsonValueParser.read(reader, currentChar)
-                        tempValue = JsonKeyParser.read(reader, currentChar) // TODO actual value
+                        tempValue = JsonKeyParser.read(reader) // TODO actual value
 
                         // Set the appropriate state, update our currentChar, and keep on parsing
                         currentChar = reader.currentChar()
@@ -90,7 +88,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_NEXT_OR_END -> {
 
-                    if (currentChar == Tokens.ENTRY_SEPARATOR.char) {
+                    if (currentChar == Token.ENTRY_SEPARATOR.char) {
 
                         // We have found a comma, now wait for another key
                         tempKey = ""; tempValue = "" // We reset the temp key and value
@@ -98,7 +96,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                         // Set the appropriate state
                         currentState = ObjectState.WAITING_FOR_KEY
 
-                    } else if (currentChar == Tokens.DATA_END.char) {
+                    } else if (currentChar == Token.OBJECT_END.char) {
 
                         // We are done parsing the object
                         break@readLoop
@@ -106,7 +104,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                     } else {
 
                         // We have found an illegal character
-                        throw IllegalStateException("kson: expected ENTRY_SEPARATOR or DATA_END but got: $currentChar")
+                        throw IllegalStateException("kson: expected ENTRY_SEPARATOR or OBJECT_END but got: $currentChar")
 
                     }
 

@@ -1,5 +1,6 @@
 package me.benjozork.kson.parser
 
+import me.benjozork.kson.parser.internal.StatefulCharReader
 import java.io.StringReader
 
 /**
@@ -12,31 +13,26 @@ object JsonKeyParser : Parser<String>() {
      * This is called to parse a JSON entry key. Not to be confused with [JsonValueParser]
      * which takes care of actual string literal values.
      *
-     * @param reader    the [StringReader] to read off of
-     * @param startChar the char being read at the moment this method was called
+     * @param reader the [StringReader] to read off of
      *
      * @return the parsed key
      */
-    override fun read(reader: StatefulCharReader, startChar: Char): String {
+    override fun read(reader: StatefulCharReader): String {
 
-        var readingComplete = false
+        var currentChar = reader.currentChar()
 
-        // The key to return
         var returnedKey = ""
 
-        var currentChar = startChar
         var ignoreFirstQuote = true
-
         var escapeNextChar = false
 
-        readLoop@while (!readingComplete) {
+        readLoop@while (true) {
 
             if (currentChar == '\\') {
                 escapeNextChar = true
             }
 
             if (currentChar == '\"' && !ignoreFirstQuote && !escapeNextChar) {
-                readingComplete = true
                 break@readLoop
             } else if (ignoreFirstQuote) {
                 // All we need to do is to not go into the else branch.

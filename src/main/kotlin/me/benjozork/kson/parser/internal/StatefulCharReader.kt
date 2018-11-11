@@ -1,4 +1,4 @@
-package me.benjozork.kson.parser
+package me.benjozork.kson.parser.internal
 
 import java.io.StringReader
 
@@ -13,7 +13,7 @@ class StatefulCharReader(val s: String) {
 
     private var reader: StringReader = StringReader(s)
 
-    private var currentChar = (-2).toChar()
+    private var currentChar: Char = reader.read().toChar()
 
     /**
      * Reads a char off the given [String]
