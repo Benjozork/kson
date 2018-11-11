@@ -19,8 +19,6 @@ object JsonKeyParser : Parser<String>() {
      */
     override fun read(reader: StatefulCharReader): String {
 
-        var currentChar = reader.currentChar()
-
         var returnedKey = ""
 
         var ignoreFirstQuote = true
@@ -28,22 +26,20 @@ object JsonKeyParser : Parser<String>() {
 
         readLoop@while (true) {
 
-            if (currentChar == '\\') {
+            if (reader.currentChar == '\\') {
                 escapeNextChar = true
             }
 
-            if (currentChar == '\"' && !ignoreFirstQuote && !escapeNextChar) {
+            if (reader.currentChar == '\"' && !ignoreFirstQuote && !escapeNextChar) {
                 break@readLoop
             } else if (ignoreFirstQuote) {
                 // All we need to do is to not go into the else branch.
             } else {
-                returnedKey += currentChar
+                returnedKey += reader.currentChar
             }
 
             if (ignoreFirstQuote) ignoreFirstQuote = false
             if (escapeNextChar) escapeNextChar = false
-
-            currentChar = reader.read()
 
         }
 

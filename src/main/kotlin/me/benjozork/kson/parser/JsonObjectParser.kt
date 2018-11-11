@@ -22,7 +22,7 @@ object JsonObjectParser : Parser<JsonObject>() {
         var returnedObject: JsonObject
 
         // Current char being read
-        var currentChar = reader.currentChar()
+        var currentChar = reader.currentChar
 
         reader.read() // We already know the first char is {
 
@@ -51,7 +51,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                         // We update our currentChar according to the state of the reader. Usually currentChar should now contain a colon.
                         // That is, if the JSON is valid
-                        currentChar = reader.currentChar()
+                        currentChar = reader.currentChar
                         currentState = ObjectState.WAITING_FOR_VALUE
 
                         continue@readLoop
@@ -80,7 +80,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                         tempValue = JsonKeyParser.read(reader) // TODO actual value
 
                         // Set the appropriate state, update our currentChar, and keep on parsing
-                        currentChar = reader.currentChar()
+                        currentChar = reader.currentChar
                         currentState = ObjectState.WAITING_FOR_NEXT_OR_END
                         continue@readLoop
                 }

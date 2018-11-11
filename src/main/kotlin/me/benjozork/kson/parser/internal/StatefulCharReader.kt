@@ -13,7 +13,8 @@ class StatefulCharReader(val s: String) {
 
     private var reader: StringReader = StringReader(s)
 
-    private var currentChar: Char = reader.read().toChar()
+    var currentChar: Char = reader.read().toChar()
+        private set
 
     /**
      * Reads a char off the given [String]
@@ -23,13 +24,6 @@ class StatefulCharReader(val s: String) {
         val temp = reader.read().toChar()
         currentChar = temp
         return temp
-    }
-
-    /**
-     * @return the current char without reading a new one
-     */
-    fun currentChar(): Char {
-        return currentChar
     }
 
 }

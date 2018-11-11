@@ -14,7 +14,7 @@ object JsonValueParser : Parser<Any>() {
 
     override fun read(reader: StatefulCharReader): Any {
 
-       if (NUMBER_CHARS.toCharArray().any { reader.currentChar() == it }) {
+       if (NUMBER_CHARS.toCharArray().any { reader.currentChar == it }) {
            // Parse a number
            val value = JsonNumberValueParser.read(reader)
        }

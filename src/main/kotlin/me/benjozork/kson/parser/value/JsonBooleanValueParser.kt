@@ -19,14 +19,14 @@ object JsonBooleanValueParser : Parser<Boolean>() {
         readLoop@while(true) {
 
             // Is it the end of the value ?
-            if (reader.currentChar() == Token.WHITESPACE.char
-                || reader.currentChar() == Token.ENTRY_SEPARATOR.char
-                || reader.currentChar() == Token.OBJECT_END.char
-                || reader.currentChar() == Token.ARRAY_END.char) {
+            if (reader.currentChar == Token.WHITESPACE.char
+                || reader.currentChar == Token.ENTRY_SEPARATOR.char
+                || reader.currentChar == Token.OBJECT_END.char
+                || reader.currentChar == Token.ARRAY_END.char) {
                 break@readLoop
             // If not, we add the current char to the string and go to the next one
             } else {
-                currentString += reader.currentChar()
+                currentString += reader.currentChar
             }
 
             // Go foward

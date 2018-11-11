@@ -32,11 +32,11 @@ object JsonNumberValueParser : Parser<Number>() {
 
         readLoop@while(true) {
 
-            if (reader.currentChar() == Token.WHITESPACE.char
-                    || reader.currentChar() == Token.ENTRY_SEPARATOR.char
-                    || reader.currentChar() == Token.OBJECT_END.char
-                    || reader.currentChar() == Token.ARRAY_END.char
-                    || reader.currentChar() == 0xFFFF.toChar()) {
+            if (reader.currentChar == Token.WHITESPACE.char
+                    || reader.currentChar == Token.ENTRY_SEPARATOR.char
+                    || reader.currentChar == Token.OBJECT_END.char
+                    || reader.currentChar == Token.ARRAY_END.char
+                    || reader.currentChar == 0xFFFF.toChar()) {
 
                 break@readLoop
 
@@ -44,14 +44,14 @@ object JsonNumberValueParser : Parser<Number>() {
                     LEGAL_CHARS
                     .toCharArray()
                     .none {
-                        it == reader.currentChar()
+                        it == reader.currentChar
                     }
             ) {
 
-                throw IllegalJsonNumberValueTokenException(reader.currentChar())
+                throw IllegalJsonNumberValueTokenException(reader.currentChar)
             }
 
-            else currentString += reader.currentChar()
+            else currentString += reader.currentChar
 
             reader.read()
 
