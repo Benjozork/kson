@@ -10,5 +10,15 @@ I wanted to use `gson` but it doesn't support kotlin nullability and sets everyt
 - (WIP) uses annotations to customize parsing
 - (WIP) support for custom parsers
 
+## Roadmap & todo
+- 🚧 Basic parsers (literal values, object/array trees)
+    - ✔️ Parser infrastructure (`StatefulCharReader`, etc)
+    - ✔️ `String` literal/key parser (kinda done)
+    - ✔️ Number parser
+    - 🚧 Object tree parser
+    - 🚧 Array tree parser
+- ❌ Object building (constructor-based, injection-based, custom, etc)
+- ❌ Wrapping everything together
+
 ## Java interop
 no
