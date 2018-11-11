@@ -14,9 +14,10 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 object JsonNumberValueParser : Parser<Number>() {
 
-    const val LEGAL_CHARS = "Ee+-.0123456789"
+    internal const val LEGAL_CHARS = "Ee+-.0123456789"
 
     private val numberRegex = Regex("^(-?)(0|[1-9]\\d*)(?:.(\\d+))?(?:e([+-]?)(\\d+))?\$", RegexOption.IGNORE_CASE)
+    private val doubleRegex = Regex("[.e]", RegexOption.IGNORE_CASE)
 
     /**
      * This is called to parse a JSON-legal number.
@@ -28,8 +29,6 @@ object JsonNumberValueParser : Parser<Number>() {
     override fun read(reader: StatefulCharReader): Number {
 
         var currentString = ""
-
-        val returnValue: Number
 
         readLoop@while(true) {
 
@@ -60,42 +59,18 @@ object JsonNumberValueParser : Parser<Number>() {
 
         // Just for readability
 
-        val finalString = currentString;
+        val finalString = currentString
 
-        // Let's actually check against the regex and then build the number data
+        // Check if regexp matches
 
-        if (!currentString.matches(numberRegex)) {
-            throw IllegalJsonNumberValueException(finalString)
+        if (!finalString.matches(numberRegex)) throw IllegalJsonNumberValueException(finalString)
+
+        val doubleMatcher = doubleRegex.toPattern().matcher(finalString)
+
+        return when {
+            doubleMatcher.find() -> finalString.toDouble()
+            else -> finalString.toLong()
         }
-
-        val matcher = numberRegex.toPattern().matcher(finalString)
-        matcher.find()
-
-            // Sign (group 1)
-
-        val sign = matcher.group(1)
-
-            // Integer part (group 2)
-
-        val intPart: Long = matcher.group(2).toLong()
-
-            // Fraction part (group 3)
-
-        val fracPart = try {
-            matcher.group(3).toLong()
-        } catch (e: Exception) {
-            null
-        }
-
-            // Exponent part (group 5)
-
-        val expPart = try {
-            matcher.group(5).toLong()
-        } catch (e: Exception) {
-            null
-        }
-
-        return 0
 
     }
 

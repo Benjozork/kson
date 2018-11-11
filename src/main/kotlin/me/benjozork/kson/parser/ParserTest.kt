@@ -25,7 +25,7 @@ object ParserTest {
 
         println(JsonObjectParser.read(reader, '}').data.toString())*/
 
-        val parsedValueTest = JsonNumberValueParser.read(StatefulCharReader("1.25788e5"))
+        val parsedValueTest = JsonNumberValueParser.read(StatefulCharReader("1257882"))
 
         println("value = $parsedValueTest: ${parsedValueTest::class}")
 
