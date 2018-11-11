@@ -1,5 +1,5 @@
 # kson
-a `json` parser with kotlin support, including support for nullable/non-mullable types and more.
+a `json` parser with kotlin support, including support for nullable/non-nullable types and more.
 
 ## Why
 I wanted to use `gson` but it doesn't support kotlin nullability and sets everything to `null` like a caveman
