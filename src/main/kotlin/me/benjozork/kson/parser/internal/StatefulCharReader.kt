@@ -11,18 +11,37 @@ import java.io.StringReader
  */
 class StatefulCharReader(val s: String) {
 
-    private var reader: StringReader = StringReader(s)
+    private var reader   = StringReader(s)
+
+    val numLines = s.lines().size
 
     var currentChar: Char = reader.read().toChar()
         private set
+
+    var position = ReaderPosition()
+        private set
+
+    private var doNewLine = false
 
     /**
      * Reads a char off the given [String]
      * @return the char that was read
      */
     fun read(): Char {
+        position.index++
+        position.col++
+
+        if (doNewLine) {
+            position.line++
+            position.col = 0
+        }
+
         val temp = reader.read().toChar()
         currentChar = temp
+
+        // This works regardless of line separator
+        if (currentChar == '\n') doNewLine = true
+
         return temp
     }
 
