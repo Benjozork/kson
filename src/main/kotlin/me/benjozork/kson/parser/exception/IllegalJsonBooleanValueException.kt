@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser.exception
 
-import java.lang.Exception
+import me.benjozork.kson.common.exception.KsonException
 
 class IllegalJsonBooleanValueException (
     actualValue: String
-) : Exception("unknown boolean value \"$actualValue\": expected \"true\" or \"false\"")
+) : KsonException("unknown boolean value \"$actualValue\": expected \"true\" or \"false\"")

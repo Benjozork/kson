@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser.exception
 
-import java.lang.Exception
+import me.benjozork.kson.common.exception.KsonException
 
 class IllegalJsonNumberValueException (
     actualValue: String
-) : Exception("illegal number value \"$actualValue\": does not match against regex")
+) : KsonException("illegal number value \"$actualValue\": does not match against regex")

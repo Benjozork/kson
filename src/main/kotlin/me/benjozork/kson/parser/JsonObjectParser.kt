@@ -60,7 +60,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
                         // Whitespace is already ignored so we can else-check for other chars and throw an error
-                        throw IllegalJsonTokenException(Token.VALUE_ASSIGNMENT, actualToken = reader.currentChar)
+                        throw IllegalJsonTokenException(Token.VALUE_ASSIGNMENT, actualToken = reader.currentChar, pos = reader.position)
                     }
 
                 }
@@ -96,7 +96,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                     } else {
 
                         // We have found an illegal character
-                        throw IllegalJsonTokenException(Token.ENTRY_SEPARATOR, Token.OBJECT_END, actualToken = reader.currentChar)
+                        throw IllegalJsonTokenException(Token.ENTRY_SEPARATOR, Token.OBJECT_END, actualToken = reader.currentChar, pos = reader.position)
 
                     }
 
