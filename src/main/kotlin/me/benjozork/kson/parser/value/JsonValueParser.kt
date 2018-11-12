@@ -10,18 +10,31 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 object JsonValueParser : Parser<Any>() {
 
-    private const val NUMBER_CHARS = "-0123456789"
+    private const val NUMBER_TRIGGER_CHARS  = "-0123456789"
+    private const val BOOLEAN_TRIGGER_CHARS = "tf"
 
     override fun read(reader: StatefulCharReader): Any {
 
-       if (NUMBER_CHARS.toCharArray().any { reader.currentChar == it }) {
-           // Parse a number
-           val value = JsonNumberValueParser.read(reader)
-       }
+        val value: Any
 
-        return Any()
+        value = when (reader.currentChar.toLowerCase()) {
+
+            in NUMBER_TRIGGER_CHARS.toCharArray() -> {
+                JsonNumberValueParser.read(reader)
+            }
+
+            in BOOLEAN_TRIGGER_CHARS.toCharArray() -> {
+                JsonBooleanValueParser.read(reader)
+            }
+
+            else -> {
+                ""
+            }
+
+        }
+
+        return value
 
     }
 
 }
-
