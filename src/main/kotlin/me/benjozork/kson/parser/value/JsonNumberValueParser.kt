@@ -3,7 +3,7 @@ package me.benjozork.kson.parser.value
 import me.benjozork.kson.parser.Parser
 import me.benjozork.kson.parser.Token
 import me.benjozork.kson.parser.exception.IllegalJsonNumberValueException
-import me.benjozork.kson.parser.exception.IllegalJsonNumberValueTokenException
+import me.benjozork.kson.parser.exception.IllegalJsonNumberTokenException
 import me.benjozork.kson.parser.internal.StatefulCharReader
 
 /**
@@ -14,7 +14,7 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 object JsonNumberValueParser : Parser<Number>() {
 
-    internal const val LEGAL_CHARS = "Ee+-.0123456789"
+    internal val LEGAL_CHARS = "Ee+-.0123456789".toCharArray()
 
     private val numberRegex = Regex("^(-?)(0|[1-9]\\d*)(?:.(\\d+))?(?:e([+-]?)(\\d+))?\$", RegexOption.IGNORE_CASE)
     private val doubleRegex = Regex("[.e]", RegexOption.IGNORE_CASE)
@@ -42,13 +42,11 @@ object JsonNumberValueParser : Parser<Number>() {
 
             } else if (
                     LEGAL_CHARS
-                    .toCharArray()
                     .none {
                         it == reader.currentChar
                     }
             ) {
-
-                throw IllegalJsonNumberValueTokenException(reader.currentChar)
+                throw IllegalJsonNumberTokenException(reader.currentChar)
             }
 
             else currentString += reader.currentChar
