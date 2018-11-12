@@ -1,9 +1,9 @@
 package me.benjozork.kson.parser
 
+import me.benjozork.kson.parser.exception.IllegalJsonTokenException
 import me.benjozork.kson.parser.internal.StatefulCharReader
 import me.benjozork.kson.parser.model.JsonObject
-
-import java.lang.IllegalStateException
+import me.benjozork.kson.parser.value.JsonValueParser
 
 object JsonObjectParser : Parser<JsonObject>() {
 
@@ -21,9 +21,6 @@ object JsonObjectParser : Parser<JsonObject>() {
         // The key to return
         var returnedObject: JsonObject
 
-        // Current char being read
-        var currentChar = reader.currentChar
-
         reader.read() // We already know the first char is {
 
         readLoop@while (true) {
@@ -31,9 +28,9 @@ object JsonObjectParser : Parser<JsonObject>() {
             // @TODO very temporary
             tempMap[tempKey] = tempValue
 
-            if (currentChar == ' ') {
+            if (reader.currentChar == ' ') {
                 // Skip whitespace
-                currentChar = reader.read()
+                reader.read()
                 continue@readLoop
             }
 
@@ -41,7 +38,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_KEY -> {
 
-                    if (currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
+                    if (reader.currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
 
                         // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
                         // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
@@ -49,9 +46,6 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                         tempKey = key
 
-                        // We update our currentChar according to the state of the reader. Usually currentChar should now contain a colon.
-                        // That is, if the JSON is valid
-                        currentChar = reader.currentChar
                         currentState = ObjectState.WAITING_FOR_VALUE
 
                         continue@readLoop
@@ -61,7 +55,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_VALUE -> {
 
-                    if (currentChar == Token.VALUE_ASSIGNMENT.char) {
+                    if (reader.currentChar == Token.VALUE_ASSIGNMENT.char) {
                         // Found a value, change state
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
@@ -76,11 +70,9 @@ object JsonObjectParser : Parser<JsonObject>() {
                         // We do not have to skip whitespace since it's already done
 
                         // Parse the value
-                        //val value = JsonValueParser.read(reader, currentChar)
-                        tempValue = JsonKeyParser.read(reader) // TODO actual value
+                        //val value = JsonValueParser.read(reader, reader.currentChar)
+                        tempValue = JsonValueParser.read(reader) // TODO actual value
 
-                        // Set the appropriate state, update our currentChar, and keep on parsing
-                        currentChar = reader.currentChar
                         currentState = ObjectState.WAITING_FOR_NEXT_OR_END
                         continue@readLoop
                 }
@@ -88,7 +80,7 @@ object JsonObjectParser : Parser<JsonObject>() {
 
                 ObjectState.WAITING_FOR_NEXT_OR_END -> {
 
-                    if (currentChar == Token.ENTRY_SEPARATOR.char) {
+                    if (reader.currentChar == Token.ENTRY_SEPARATOR.char) {
 
                         // We have found a comma, now wait for another key
                         tempKey = ""; tempValue = "" // We reset the temp key and value
@@ -96,7 +88,7 @@ object JsonObjectParser : Parser<JsonObject>() {
                         // Set the appropriate state
                         currentState = ObjectState.WAITING_FOR_KEY
 
-                    } else if (currentChar == Token.OBJECT_END.char) {
+                    } else if (reader.currentChar == Token.OBJECT_END.char) {
 
                         // We are done parsing the object
                         break@readLoop
@@ -111,23 +103,24 @@ object JsonObjectParser : Parser<JsonObject>() {
                 }
             }
 
-            currentChar = reader.read()
+            reader.read()
 
         }
 
         return JsonObject(tempMap)
 
     }
-}
 
-enum class ObjectState {
-    // Waiting for a key to start
-    WAITING_FOR_KEY,
-    // We are done parsing the key and we are now waiting for a colon (':)
-    WAITING_FOR_VALUE,
-    // We have found a colon (':'), however we are waiting for a value to start
-    FOUND_VALUE_WAITING_FOR_TRIGGER,
-    // We are either waiting for another comma or the end of the object
-    WAITING_FOR_NEXT_OR_END;
+    enum class ObjectState {
+        // Waiting for a key to start
+        WAITING_FOR_KEY,
+        // We are done parsing the key and we are now waiting for a colon (':)
+        WAITING_FOR_VALUE,
+        // We have found a colon (':'), however we are waiting for a value to start
+        FOUND_VALUE_WAITING_FOR_TRIGGER,
+        // We are either waiting for another comma or the end of the object
+        WAITING_FOR_NEXT_OR_END;
+
+    }
 
 }
