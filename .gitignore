@@ -1,0 +1,9 @@
+.idea/
+gradle/
+./gradle
+lib/
+out/
+*.gradle
+*.properties
+.bat
+gradlew
