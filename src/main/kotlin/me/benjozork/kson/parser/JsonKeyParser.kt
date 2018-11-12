@@ -41,6 +41,8 @@ object JsonKeyParser : Parser<String>() {
             if (ignoreFirstQuote) ignoreFirstQuote = false
             if (escapeNextChar) escapeNextChar = false
 
+            reader.read()
+
         }
 
         reader.read() // Get out of the key and let the call site handle the next char
