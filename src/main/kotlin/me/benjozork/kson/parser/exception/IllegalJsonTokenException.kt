@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser.exception
 
 import me.benjozork.kson.parser.Token
-import me.benjozork.kson.parser.internal.ReaderPosition
+import me.benjozork.kson.parser.internal.StatefulCharReader
 
 /**
  * Defines an error caused by an invalid or misplaced token found in a JSON string
@@ -13,13 +13,12 @@ import me.benjozork.kson.parser.internal.ReaderPosition
  */
 class IllegalJsonTokenException (
 
-    vararg expectedTokens: Token,
-              actualToken: Char,
-                      pos: ReaderPosition
+                   reader: StatefulCharReader,
+    vararg expectedTokens: Token
 
-) : KsonParserException (generateMessage(expectedTokens, actualToken), pos)
+) : KsonParserException (generateMessage(expectedTokens, reader.currentChar), reader.position)
 
-fun generateMessage(expectedTokens: Array<out Token>, actualToken: Char): String {
+private fun generateMessage(expectedTokens: Array<out Token>, actualToken: Char): String {
 
     var message = ""
 
