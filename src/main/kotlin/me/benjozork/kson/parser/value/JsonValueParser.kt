@@ -1,6 +1,10 @@
 package me.benjozork.kson.parser.value
 
+import me.benjozork.kson.parser.JsonArrayParser
+import me.benjozork.kson.parser.JsonObjectParser
 import me.benjozork.kson.parser.Parser
+import me.benjozork.kson.parser.Token
+import me.benjozork.kson.parser.exception.IllegalJsonTokenException
 import me.benjozork.kson.parser.internal.StatefulCharReader
 
 /**
@@ -22,9 +26,7 @@ object JsonValueParser : Parser<Any>() {
      */
     override fun read(reader: StatefulCharReader): Any {
 
-        val value: Any
-
-        value = when (reader.currentChar.toLowerCase()) {
+        return when (reader.currentChar.toLowerCase()) {
 
             in NUMBER_TRIGGER_CHARS.toCharArray() -> {
                 JsonNumberValueParser.read(reader)
@@ -34,13 +36,22 @@ object JsonValueParser : Parser<Any>() {
                 JsonBooleanValueParser.read(reader)
             }
 
-            else -> {
-                ""
+            Token.OBJECT_START.char -> {
+                JsonObjectParser.read(reader)
             }
 
-        }
+            Token.ARRAY_START.char -> {
+                JsonArrayParser.read(reader)
+            }
 
-        return value
+            Token.STRING_LITERAL_DELIM.char -> {
+                JsonStringValueParser.read(reader)
+            }
+
+            else -> {
+                throw IllegalJsonTokenException(reader, Token.OBJECT_START, Token.ARRAY_START, Token.STRING_LITERAL_DELIM, Token.NUMBER_TOKEN)
+            }
+        }
 
     }
 
