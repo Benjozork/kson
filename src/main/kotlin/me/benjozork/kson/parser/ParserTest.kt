@@ -1,7 +1,6 @@
 package me.benjozork.kson.parser
 
 import me.benjozork.kson.parser.internal.StatefulCharReader
-import me.benjozork.kson.parser.value.JsonNumberValueParser
 
 object ParserTest {
 
@@ -9,7 +8,7 @@ object ParserTest {
     {
         "test": "abcd",
         "test2": [
-            "test",
+            "test",d
             "test1",
             "testy"
         ]
@@ -22,11 +21,9 @@ object ParserTest {
 
         reader.read()
 
-        println(JsonObjectParser.read(reader).data.toString())
-
-        val parsedValueTest = JsonNumberValueParser.read(StatefulCharReader("1257882"))
-
-        println("value = $parsedValueTest: ${parsedValueTest::class}")
+        val timeBefore = System.currentTimeMillis()
+        println(JsonObjectParser.read(reader).toString())
+        println(System.currentTimeMillis() - timeBefore)
 
     }
 
