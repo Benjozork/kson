@@ -10,7 +10,7 @@ package me.benjozork.kson.parser.internal
  * @author Benjozork
  */
 data class ReaderPosition (
-    var line:  Int = 0,
-    var col:   Int = 0,
+    var line:  Int = 1,
+    var col:   Int = 1,
     var index: Int = 0
 )
