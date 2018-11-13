@@ -15,14 +15,21 @@ object ParserTest {
     }
     """.trimIndent()
 
+    val arrayTest = """
+        [
+            0.5564e-5,
+            89789789,
+            25e5,
+            0.222e+77
+        ]
+    """.trimIndent()
+
     fun parse() {
 
-        val reader = StatefulCharReader(testString)
-
-        reader.read()
+        val reader = StatefulCharReader(arrayTest)
 
         val timeBefore = System.currentTimeMillis()
-        println(JsonObjectParser.read(reader).toString())
+        println(JsonArrayParser.read(reader))
         println(System.currentTimeMillis() - timeBefore)
 
     }
