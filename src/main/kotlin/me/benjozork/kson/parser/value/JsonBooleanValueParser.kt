@@ -2,7 +2,7 @@ package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
 import me.benjozork.kson.parser.Token
-import me.benjozork.kson.parser.exception.IllegalJsonBooleanValueException
+import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValue
 import me.benjozork.kson.parser.internal.StatefulCharReader
 
 /**
@@ -46,7 +46,7 @@ object JsonBooleanValueParser : Parser<Boolean>() {
         returnValue = when (sanitizedString) {
             booleanTrue -> true
             booleanFalse -> false
-            else -> throw IllegalJsonBooleanValueException(currentString)
+            else -> throw IllegalJsonAbsoluteValue(currentString)
         }
 
         return returnValue
