@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser.exception
 
-import me.benjozork.kson.common.exception.KsonException
+import me.benjozork.kson.parser.internal.StatefulCharReader
 
 /**
  * Defines an error caused by an invalid or misplaced number token found in a JSON number
@@ -10,5 +10,5 @@ import me.benjozork.kson.common.exception.KsonException
  * @author Benjozork
  */
 class IllegalJsonNumberTokenException (
-    badToken: Char
-) : KsonException("unknown number token \'$badToken\': expected a valid JSON number token. See JSON spec for detail")
+      reader: StatefulCharReader
+) : KsonParserException("unknown number token \'${reader.currentChar}\': expected a valid JSON number token. See JSON spec for detail", reader.position)

@@ -47,7 +47,7 @@ object JsonNumberValueParser : Parser<Number>() {
                         it == reader.currentChar
                     }
             ) {
-                throw IllegalJsonNumberTokenException(reader.currentChar)
+                throw IllegalJsonNumberTokenException(reader)
             }
 
             else currentString += reader.currentChar
