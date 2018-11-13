@@ -2,7 +2,6 @@ package me.benjozork.kson.parser
 
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
 import me.benjozork.kson.parser.internal.StatefulCharReader
-import me.benjozork.kson.parser.model.JsonObject
 import me.benjozork.kson.parser.value.JsonValueParser
 
 /**
@@ -22,26 +21,22 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
     override fun read(reader: StatefulCharReader): HashMap<String, Any> {
 
         // Temp map and entry
-        val tempMap = mutableMapOf<String, Any>()
+        val tempMap = hashMapOf<String, Any>()
 
-        var tempKey = ""
-        var tempValue: Any = ""
+        var tempKey: String = ""
+        var tempValue:  Any = ""
 
         // The current parsing state
         var currentState = ObjectState.WAITING_FOR_KEY
-
-        // The key to return
-        var returnedObject: JsonObject
 
         reader.read() // We already know the first char is {
 
         readLoop@while (true) {
 
-            // @TODO very temporary
-            tempMap[tempKey] = tempValue
+            if (tempKey != "") tempMap[tempKey] = tempValue
 
-            if (reader.currentChar == ' ') {
-                // Skip whitespace
+            if (reader.currentChar.isWhitespace() || reader.currentChar == '\n') {
+                // Skip whitespace or newline
                 reader.read()
                 continue@readLoop
             }
@@ -72,14 +67,14 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
                         // Whitespace is already ignored so we can else-check for other chars and throw an error
-                        throw IllegalJsonTokenException(Token.VALUE_ASSIGNMENT, actualToken = reader.currentChar, pos = reader.position)
+                        throw IllegalJsonTokenException(reader, Token.VALUE_ASSIGNMENT)
                     }
 
                 }
 
                 ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER -> {
 
-                        // We do not have to skip whitespace since it's already done
+                        // We do not have to skip whitespace or newlines since it's already done
 
                         // Parse the value
                         //val value = JsonValueParser.read(reader, reader.currentChar)
@@ -93,23 +88,14 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                 ObjectState.WAITING_FOR_NEXT_OR_END -> {
 
                     if (reader.currentChar == Token.ENTRY_SEPARATOR.char) {
-
                         // We have found a comma, now wait for another key
                         tempKey = ""; tempValue = "" // We reset the temp key and value
-
-                        // Set the appropriate state
                         currentState = ObjectState.WAITING_FOR_KEY
-
                     } else if (reader.currentChar == Token.OBJECT_END.char) {
-
                         // We are done parsing the object
                         break@readLoop
-
                     } else {
-
-                        // We have found an illegal character
-                        throw IllegalJsonTokenException(Token.ENTRY_SEPARATOR, Token.OBJECT_END, actualToken = reader.currentChar, pos = reader.position)
-
+                        throw IllegalJsonTokenException(reader, Token.ENTRY_SEPARATOR, Token.OBJECT_END)
                     }
 
                 }
@@ -119,7 +105,7 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
         }
 
-        return JsonObject(tempMap)
+        return tempMap
 
     }
 
