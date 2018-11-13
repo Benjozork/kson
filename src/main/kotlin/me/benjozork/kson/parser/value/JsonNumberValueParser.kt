@@ -32,11 +32,12 @@ object JsonNumberValueParser : Parser<Number>() {
 
         readLoop@while(true) {
 
-            if (reader.currentChar == Token.WHITESPACE.char
-                    || reader.currentChar == Token.ENTRY_SEPARATOR.char
-                    || reader.currentChar == Token.OBJECT_END.char
-                    || reader.currentChar == Token.ARRAY_END.char
-                    || reader.currentChar == 0xFFFF.toChar()) {
+            if (reader.currentChar.isWhitespace()
+                || reader.currentChar == '\n'
+                || reader.currentChar == Token.ENTRY_SEPARATOR.char
+                || reader.currentChar == Token.OBJECT_END.char
+                || reader.currentChar == Token.ARRAY_END.char
+                || reader.currentChar == 0xFFFF.toChar()) {
 
                 break@readLoop
 

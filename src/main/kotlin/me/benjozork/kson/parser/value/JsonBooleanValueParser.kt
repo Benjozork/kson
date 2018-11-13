@@ -24,7 +24,8 @@ object JsonBooleanValueParser : Parser<Boolean>() {
         readLoop@while(true) {
 
             // Is it the end of the value ?
-            if (reader.currentChar == Token.WHITESPACE.char
+            if (reader.currentChar.isWhitespace()
+                || reader.currentChar == '\n'
                 || reader.currentChar == Token.ENTRY_SEPARATOR.char
                 || reader.currentChar == Token.OBJECT_END.char
                 || reader.currentChar == Token.ARRAY_END.char) {
