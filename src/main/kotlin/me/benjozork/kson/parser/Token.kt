@@ -20,7 +20,6 @@ enum class Token(val char: Char) {
     NEGATIVE_SIGN        ('-'),
     POSITIVE_SIGN        ('+'),
     EXPONENT_SIGN        ('E'),
-    WHITESPACE           (' '),
 
     // Special tokens used in exception messages only
     NUMBER_TOKEN         ('\uFFFF'),
