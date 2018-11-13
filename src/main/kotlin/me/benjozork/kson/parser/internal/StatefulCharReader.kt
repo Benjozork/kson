@@ -30,15 +30,17 @@ class StatefulCharReader(val s: String) {
      * @return the char that was read
      */
     fun read(): Char {
+        val temp = reader.read().toChar()
+
         position.index++
         position.col++
 
         if (doNewLine) {
             position.line++
             position.col = 0
+            doNewLine = false
         }
 
-        val temp = reader.read().toChar()
         currentChar = temp
 
         // This works regardless of line separator
