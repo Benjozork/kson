@@ -22,7 +22,8 @@ enum class Token(val char: Char) {
     EXPONENT_SIGN        ('E'),
     WHITESPACE           (' '),
 
-    // Special token used in exception messages only
-    NUMBER_TOKEN         ('\uFFFF');
+    // Special tokens used in exception messages only
+    NUMBER_TOKEN         ('\uFFFF'),
+    ABSOLUTE_VALUE_TOKEN ('\uFFFF'),
 
 }

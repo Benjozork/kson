@@ -49,7 +49,11 @@ object JsonValueParser : Parser<Any>() {
             }
 
             else -> {
-                throw IllegalJsonTokenException(reader, Token.OBJECT_START, Token.ARRAY_START, Token.STRING_LITERAL_DELIM, Token.NUMBER_TOKEN)
+                throw IllegalJsonTokenException(reader, Token.OBJECT_START,
+                                                        Token.ARRAY_START,
+                                                        Token.STRING_LITERAL_DELIM,
+                                                        Token.NUMBER_TOKEN,
+                                                        Token.ABSOLUTE_VALUE_TOKEN)
             }
         }
 
