@@ -5,9 +5,21 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
 import me.benjozork.kson.parser.model.JsonObject
 import me.benjozork.kson.parser.value.JsonValueParser
 
-object JsonObjectParser : Parser<JsonObject>() {
+/**
+ * Parses JSON objects with their keys and values
+ *
+ * @author Benjozork
+ */
+object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
-    override fun read(reader: StatefulCharReader): JsonObject {
+    /**
+     * This is called to parse a JSON object.
+     *
+     * @param reader the [StatefulCharReader] to read off of
+     *
+     * @return the parsed object
+     */
+    override fun read(reader: StatefulCharReader): HashMap<String, Any> {
 
         // Temp map and entry
         val tempMap = mutableMapOf<String, Any>()

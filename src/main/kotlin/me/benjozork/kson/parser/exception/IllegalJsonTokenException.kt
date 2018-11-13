@@ -3,6 +3,14 @@ package me.benjozork.kson.parser.exception
 import me.benjozork.kson.parser.Token
 import me.benjozork.kson.parser.internal.ReaderPosition
 
+/**
+ * Defines an error caused by an invalid or misplaced token found in a JSON string
+ *
+ * @constructor generates an exception message containing the current reader position, a message, the expected tokens and
+ * the tokens that were actually found
+ *
+ * @author Benjozork
+ */
 class IllegalJsonTokenException (
 
     vararg expectedTokens: Token,

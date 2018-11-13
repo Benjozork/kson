@@ -5,6 +5,11 @@ import me.benjozork.kson.parser.Token
 import me.benjozork.kson.parser.exception.IllegalJsonBooleanValueException
 import me.benjozork.kson.parser.internal.StatefulCharReader
 
+/**
+ * Parses JSON boolean values
+ *
+ * @author Benjozork
+ */
 object JsonBooleanValueParser : Parser<Boolean>() {
 
     override fun read(reader: StatefulCharReader): Boolean {

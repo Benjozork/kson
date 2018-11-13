@@ -8,6 +8,8 @@ import java.io.StringReader
  * @property s the [String] to read off of
  *
  * @constructor create a new [StatefulCharReader] off of a [String] `s`
+ *
+ * @author Benjozork
  */
 class StatefulCharReader(val s: String) {
 

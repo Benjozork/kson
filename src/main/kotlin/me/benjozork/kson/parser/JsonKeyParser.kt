@@ -1,11 +1,12 @@
 package me.benjozork.kson.parser
 
 import me.benjozork.kson.parser.internal.StatefulCharReader
-import java.io.StringReader
 
 /**
  * Parses JSON entry keys. Not to be confused with [JsonValueParser]
  * which takes care of actual string literal values.
+ *
+ * @author Benjozork
  */
 object JsonKeyParser : Parser<String>() {
 
@@ -13,7 +14,7 @@ object JsonKeyParser : Parser<String>() {
      * This is called to parse a JSON entry key. Not to be confused with [JsonValueParser]
      * which takes care of actual string literal values.
      *
-     * @param reader the [StringReader] to read off of
+     * @param reader the [StatefulCharReader] to read off of
      *
      * @return the parsed key
      */
