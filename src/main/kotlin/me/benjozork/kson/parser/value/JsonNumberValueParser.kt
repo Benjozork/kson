@@ -61,7 +61,7 @@ object JsonNumberValueParser : Parser<Number>() {
 
         // Check if regexp matches
 
-        if (!finalString.matches(numberRegex)) throw IllegalJsonNumberValueException(finalString)
+        if (!finalString.matches(numberRegex)) throw IllegalJsonNumberValueException(reader, finalString)
 
         val doubleMatcher = doubleRegex.toPattern().matcher(finalString)
 
