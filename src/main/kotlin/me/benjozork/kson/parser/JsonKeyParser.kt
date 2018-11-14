@@ -33,14 +33,17 @@ object JsonKeyParser : Parser<String>() {
 
             if (reader.currentChar == '\"' && !ignoreFirstQuote && !escapeNextChar) {
                 break@readLoop
-            } else if (ignoreFirstQuote) {
+            } else if (ignoreFirstQuote || (escapeNextChar && reader.currentChar == '\\')) {
                 // All we need to do is to not go into the else branch.
             } else {
                 returnedKey += reader.currentChar
             }
 
+            if (reader.currentChar != '\\') {
+                escapeNextChar = false
+            }
+
             if (ignoreFirstQuote) ignoreFirstQuote = false
-            if (escapeNextChar) escapeNextChar = false
 
             reader.read()
 

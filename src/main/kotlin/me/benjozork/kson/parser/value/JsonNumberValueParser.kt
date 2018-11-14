@@ -14,7 +14,7 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 object JsonNumberValueParser : Parser<Number>() {
 
-    internal val LEGAL_CHARS = "Ee+-.0123456789".toCharArray()
+    private val LEGAL_CHARS = "Ee+-.0123456789".toCharArray()
 
     private val numberRegex = Regex("^(-?)(0|[1-9]\\d*)(?:.(\\d+))?(?:e([+-]?)(\\d+))?\$", RegexOption.IGNORE_CASE)
     private val doubleRegex = Regex("[.e]", RegexOption.IGNORE_CASE)
@@ -68,7 +68,10 @@ object JsonNumberValueParser : Parser<Number>() {
 
         return when {
             doubleMatcher.find() -> finalString.toDouble()
-            else -> finalString.toLong()
+            else -> {
+                val temp = finalString.toLong()
+                if (temp < Int.MAX_VALUE) temp.toInt() else temp
+            }
         }
 
     }

@@ -27,7 +27,7 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
         var tempValue:  Any = ""
 
         // The current parsing state
-        var currentState = ObjectState.WAITING_FOR_KEY
+        var currentState = ObjectState.WAITING_FOR_FIRST_KEY
 
         reader.read() // We already know the first char is {
 
@@ -43,6 +43,27 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
             when (currentState) {
 
+                ObjectState.WAITING_FOR_FIRST_KEY -> {
+
+                    if (reader.currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
+
+                        // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
+                        // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
+                        val key = JsonKeyParser.read(reader)
+
+                        tempKey = key
+
+                        currentState = ObjectState.WAITING_FOR_VALUE
+
+                        continue@readLoop
+                    } else if (reader.currentChar == Token.OBJECT_END.char) {
+                        break@readLoop
+                    } else {
+                        throw IllegalJsonTokenException(reader, Token.STRING_LITERAL_DELIM)
+                    }
+
+                }
+
                 ObjectState.WAITING_FOR_KEY -> {
 
                     if (reader.currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
@@ -56,6 +77,8 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                         currentState = ObjectState.WAITING_FOR_VALUE
 
                         continue@readLoop
+                    } else {
+                        throw IllegalJsonTokenException(reader, Token.STRING_LITERAL_DELIM)
                     }
 
                 }
@@ -110,6 +133,8 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
     }
 
     enum class ObjectState {
+        // The difference with the next one is that here we accept a closing bracket for an empty object
+        WAITING_FOR_FIRST_KEY,
         // Waiting for a key to start
         WAITING_FOR_KEY,
         // We are done parsing the key and we are now waiting for a colon (':)

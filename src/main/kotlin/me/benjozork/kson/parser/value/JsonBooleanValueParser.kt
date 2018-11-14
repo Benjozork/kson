@@ -28,7 +28,8 @@ object JsonBooleanValueParser : Parser<Boolean>() {
                 || reader.currentChar == '\n'
                 || reader.currentChar == Token.ENTRY_SEPARATOR.char
                 || reader.currentChar == Token.OBJECT_END.char
-                || reader.currentChar == Token.ARRAY_END.char) {
+                || reader.currentChar == Token.ARRAY_END.char
+                || reader.currentChar == (-1).toChar()) {
                 break@readLoop
             // If not, we add the current char to the string and go to the next one
             } else {
