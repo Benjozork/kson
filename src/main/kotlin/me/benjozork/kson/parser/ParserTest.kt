@@ -17,7 +17,7 @@ object ParserTest {
 
     val arrayTest = """
         [
-            0.5564e-5,
+            0.5564e-5,.
             89789789,
             25e5,
             0.222e+77
