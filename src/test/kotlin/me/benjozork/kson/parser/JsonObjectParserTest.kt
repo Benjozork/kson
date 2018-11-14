@@ -72,7 +72,7 @@ class JsonObjectParserTest {
     }
 
     @Test(expected = IllegalJsonTokenException::class)
-    fun objectFailIllegalTokendTest() {
+    fun objectFailIllegalTokenTest() {
 
         val source =
             """
