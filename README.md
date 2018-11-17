@@ -12,17 +12,17 @@ I wanted to use `gson` but it doesn't support kotlin nullability and sets everyt
 
 ## Roadmap & todo
 - 🚧 Basic parsers (literal values, object/array trees)
-    - ✔️ Parser infrastructure (`StatefulCharReader`, etc)
-    - ✔️ `String` literal/key parser (kinda done)
+    - 🚧 Parser infrastructure (`JsonReader`, etc)
+    - ✔️ `String` literal/key parser
     - ✔️ Number parser
-    - 🚧 Object tree parser
-    - 🚧 Array tree parser
-- ❌ Serializers
-    - ❌ Serializer infrastructure
-    - ❌ `String` literal/key serializer
+    - ✔️ Object tree parser
+    - ✔️ Array tree parser
+- 🚧 Basic writers
+    - 🚧 Writer infrastructure (`JsonWriter`, etc)
+    - 🚧 `String` literal/key serializer
     - ❌ Number serializer
-    - ❌ Object tree serializer
-    - ❌ Array tree serializer
+    - 🚧 Object tree serializer
+    - 🚧 Array tree serializer
 - ❌ Object building (constructor-based, injection-based, custom, etc)
 - ❌ Wrapping everything together
 
