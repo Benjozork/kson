@@ -6,8 +6,7 @@ import me.benjozork.kson.writer.Writer
 object JsonBooleanValueWriter : Writer<Boolean?>() {
 
     override fun print(writer: JsonWriter, data: Boolean?) {
-            if (data != null) writer.append(data.toString())
-            else writer.append(data.toString())
+        writer.append(data.toString())
     }
 
 }
