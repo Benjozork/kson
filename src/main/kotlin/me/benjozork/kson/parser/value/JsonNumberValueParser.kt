@@ -1,10 +1,11 @@
 package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
-import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonNumberValueException
 import me.benjozork.kson.parser.exception.IllegalJsonNumberTokenException
 import me.benjozork.kson.parser.internal.JsonReader
+
+import me.benjozork.kson.common.JsonToken
 
 /**
  * Parses a number in the JSON-legal number format
@@ -14,7 +15,7 @@ import me.benjozork.kson.parser.internal.JsonReader
  */
 object JsonNumberValueParser : Parser<Number>() {
 
-    private val LEGAL_CHARS = "Ee+-.0123456789".toCharArray()
+    private const val LEGAL_CHARS = "Ee+-.0123456789"
 
     private val numberRegex = Regex("^(-?)(0|[1-9]\\d*)(?:.(\\d+))?(?:e([+-]?)(\\d+))?\$", RegexOption.IGNORE_CASE)
     private val doubleRegex = Regex("[.e]", RegexOption.IGNORE_CASE)
@@ -32,20 +33,13 @@ object JsonNumberValueParser : Parser<Number>() {
 
         readLoop@while(true) {
 
-            if (reader.currentChar.isWhitespace()
-                || reader.currentChar == '\n'
-                || reader.currentChar == JsonToken.ENTRY_SEPARATOR.char
-                || reader.currentChar == JsonToken.OBJECT_END.char
-                || reader.currentChar == JsonToken.ARRAY_END.char
-                || reader.currentChar == 0xFFFF.toChar()) {
-
+            if (JsonToken.isAbsoluteValueEnd(reader.currentChar)) {
                 break@readLoop
-
             } else if (
-                    LEGAL_CHARS
-                    .none {
-                        it == reader.currentChar
-                    }
+                LEGAL_CHARS
+                .none {
+                    it == reader.currentChar
+                }
             ) {
                 throw IllegalJsonNumberTokenException(reader)
             }

@@ -13,4 +13,4 @@ import me.benjozork.kson.common.TextPosition
  *
  * @author Benjozork
  */
-open class KsonParserException(message: String, val pos: TextPosition) : KsonException("at position (${pos.line}, ${pos.col}):\n $message")
+open class KsonParserException(message: String, val pos: TextPosition) : KsonException("at position (${pos.line}, ${pos.col}):\n$message")

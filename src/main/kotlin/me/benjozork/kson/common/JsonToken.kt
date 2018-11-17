@@ -23,6 +23,17 @@ enum class JsonToken(val char: Char) {
 
     // Special tokens used in exception messages only
     NUMBER_TOKEN         ('\uFFFF'),
-    ABSOLUTE_VALUE_TOKEN ('\uFFFF'),
+    ABSOLUTE_VALUE_TOKEN ('\uFFFF');
+
+    companion object {
+        fun isAbsoluteValueEnd(char: Char): Boolean {
+            return (char.isWhitespace()
+                || char == '\n'
+                || char == JsonToken.ENTRY_SEPARATOR.char
+                || char == JsonToken.OBJECT_END.char
+                || char == JsonToken.ARRAY_END.char
+                || char == (-1).toChar())
+        }
+    }
 
 }

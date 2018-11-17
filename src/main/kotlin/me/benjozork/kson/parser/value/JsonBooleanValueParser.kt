@@ -1,9 +1,10 @@
 package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
-import me.benjozork.kson.common.JsonToken
-import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValue
+import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValueException
 import me.benjozork.kson.parser.internal.JsonReader
+
+import me.benjozork.kson.common.JsonToken
 
 /**
  * Parses JSON boolean values
@@ -11,6 +12,8 @@ import me.benjozork.kson.parser.internal.JsonReader
  * @author Benjozork
  */
 object JsonBooleanValueParser : Parser<Boolean>() {
+
+    private const val LEGAL_CHARS = "afelrstu"
 
     override fun read(reader: JsonReader): Boolean {
 
@@ -23,20 +26,19 @@ object JsonBooleanValueParser : Parser<Boolean>() {
 
         readLoop@while(true) {
 
-            // Is it the end of the value ?
-            if (reader.currentChar.isWhitespace()
-                || reader.currentChar == '\n'
-                || reader.currentChar == JsonToken.ENTRY_SEPARATOR.char
-                || reader.currentChar == JsonToken.OBJECT_END.char
-                || reader.currentChar == JsonToken.ARRAY_END.char
-                || reader.currentChar == (-1).toChar()) {
+            if (JsonToken.isAbsoluteValueEnd(reader.currentChar)) {
                 break@readLoop
-            // If not, we add the current char to the string and go to the next one
+            } else if (
+                LEGAL_CHARS
+                    .none {
+                        it == reader.currentChar.toLowerCase()
+                    }
+            ) {
+                throw IllegalJsonAbsoluteValueException(currentString, reader)
             } else {
                 currentString += reader.currentChar
             }
 
-            // Go foward
             reader.read()
 
         }
@@ -48,7 +50,7 @@ object JsonBooleanValueParser : Parser<Boolean>() {
         returnValue = when (sanitizedString) {
             booleanTrue -> true
             booleanFalse -> false
-            else -> throw IllegalJsonAbsoluteValue(currentString)
+            else -> throw IllegalJsonAbsoluteValueException(currentString, reader)
         }
 
         return returnValue
