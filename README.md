@@ -16,11 +16,11 @@ If anyone sees this and is willing to help, feel free to open an issue or PR!
 
 **Here's what works for now:**  
     - Basic parsing: map/array composition, number/bool/string read  
-    - Basic writing: (map/array serialize, string serialize)  
+    - Basic writing: (map/array serialize, number/bool/string serialize)  
 
 **Here's what's planned in the near future**:  
     - Tidying up the code in `parser`  
-    - Adding missing functionality to `writer` (notably number/bool serialize)  
+    - Adding missing functionality to `writer`
     
 **Here's what's planned after that**:  
     - Adding complementary functionality to `parser`/`reader` (format tolerance options, printing options (raw, prettyprint, etc))  
