@@ -1,7 +1,8 @@
 package me.benjozork.kson.parser.exception
 
+import me.benjozork.kson.parser.JsonReader
+
 import me.benjozork.kson.common.JsonToken
-import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Defines an error caused by an invalid or misplaced token found in a JSON string

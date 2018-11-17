@@ -1,4 +1,4 @@
-package me.benjozork.kson.parser.internal
+package me.benjozork.kson.parser
 
 import me.benjozork.kson.common.TextPosition
 

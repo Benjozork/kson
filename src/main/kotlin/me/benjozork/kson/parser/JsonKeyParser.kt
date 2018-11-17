@@ -1,7 +1,5 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.JsonReader
-
 /**
  * Parses JSON entry keys. Not to be confused with [JsonValueParser]
  * which takes care of actual string literal values.

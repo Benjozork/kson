@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser.exception
 
-import me.benjozork.kson.parser.internal.JsonReader
+import me.benjozork.kson.parser.JsonReader
 
 /**
  * Defines an error caused by an invalid JSON number.

@@ -2,7 +2,7 @@ package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
 import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValueException
-import me.benjozork.kson.parser.internal.JsonReader
+import me.benjozork.kson.parser.JsonReader
 
 import me.benjozork.kson.common.JsonToken
 

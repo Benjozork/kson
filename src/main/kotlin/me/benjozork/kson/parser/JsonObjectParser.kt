@@ -3,7 +3,6 @@ package me.benjozork.kson.parser
 import me.benjozork.kson.common.JsonToken
 
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.JsonReader
 import me.benjozork.kson.parser.value.JsonValueParser
 
 /**

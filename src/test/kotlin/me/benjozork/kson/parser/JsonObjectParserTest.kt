@@ -1,7 +1,6 @@
 package me.benjozork.kson.parser
 
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.JsonReader
 
 import org.junit.Test
 

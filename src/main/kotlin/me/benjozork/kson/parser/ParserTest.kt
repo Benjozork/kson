@@ -1,7 +1,5 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.JsonReader
-
 object ParserTest {
 
     val testString = """
