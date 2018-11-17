@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser.value
 
-import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValue
+import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValueException
 import me.benjozork.kson.parser.internal.JsonReader
 
 import org.junit.Test
@@ -27,7 +27,7 @@ class JsonBooleanValueParserTest {
 
     }
 
-    @Test(expected = IllegalJsonAbsoluteValue::class)
+    @Test(expected = IllegalJsonAbsoluteValueException::class)
     fun booleanFailTest() {
 
         val sources = arrayOf("abcd", "489", "falsed", "null")
