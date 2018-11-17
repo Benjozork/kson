@@ -5,10 +5,27 @@ a `json` parser with kotlin support, including support for nullable/non-nullable
 I wanted to use `gson` but it doesn't support kotlin nullability and sets everything to `null` like a caveman
 
 ## Features
-- (WIP) no unnecessary wrappers, returns primitive types and objects (not for now, I need wrappers for prototyping)
+- no unnecessary wrappers, returns primitive types and objects
 - (WIP) supports kotlin's nullability system
 - (WIP) uses annotations to customize parsing
 - (WIP) support for custom parsers
+
+## Progress
+I'm currently working on the bare minimum code, so nothing is pretty, well done or even readable.  
+If anyone sees this and is willing to help, feel free to open an issue or PR!
+
+**Here's what works for now:**  
+    - Basic parsing: map/array composition, number/bool/string read  
+    - Basic writing: (map/array serialize, string serialize)  
+
+**Here's what's planned in the near future**:  
+    - Tidying up the code in `parser`  
+    - Adding missing functionality to `writer` (notably number/bool serialize)  
+    
+**Here what's planned after that**:  
+    - Adding complementary functionality to `parser`/`reader` (format tolerance options, printing options (raw, prettyprint, etc))  
+    - Object composition (constructor, inject, type mapping with annotations to reduce the need for custom serializers)  
+    - JSON schema validation  
 
 ## Roadmap & todo
 - 🚧 Basic parsers (literal values, object/array trees)
