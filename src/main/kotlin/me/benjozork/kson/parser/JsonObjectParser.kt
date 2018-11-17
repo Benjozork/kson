@@ -118,6 +118,7 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                         currentState = ObjectState.WAITING_FOR_KEY
                     } else if (reader.currentChar == JsonToken.OBJECT_END.char) {
                         // We are done parsing the object
+                        reader.read()
                         break@readLoop
                     } else {
                         throw IllegalJsonTokenException(reader, JsonToken.ENTRY_SEPARATOR, JsonToken.OBJECT_END)
