@@ -1,4 +1,4 @@
-package me.benjozork.kson.parser.internal
+package me.benjozork.kson.common
 
 /**
  * Defines the current position of a [StatefulCharReader] inside of the [String] it is reading
@@ -9,7 +9,7 @@ package me.benjozork.kson.parser.internal
  *
  * @author Benjozork
  */
-data class ReaderPosition (
+data class TextPosition (
     var line:  Int = 1,
     var col:   Int = 1,
     var index: Int = 0

@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser.exception
 
 import me.benjozork.kson.common.exception.KsonException
-import me.benjozork.kson.parser.internal.ReaderPosition
+import me.benjozork.kson.common.TextPosition
 
 /**
  * Defines an error that occurs during JSON parsing
@@ -13,4 +13,4 @@ import me.benjozork.kson.parser.internal.ReaderPosition
  *
  * @author Benjozork
  */
-open class KsonParserException(message: String, val pos: ReaderPosition) : KsonException("at position (${pos.line}, ${pos.col}):\n $message")
+open class KsonParserException(message: String, val pos: TextPosition) : KsonException("at position (${pos.line}, ${pos.col}):\n $message")

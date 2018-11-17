@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValue
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 import org.junit.Test
 
@@ -14,7 +14,7 @@ class JsonBooleanValueParserTest {
 
         val sources = arrayOf("true", "True", "tRuE", "TRUE")
 
-        sources.forEach { assertEquals(true, JsonBooleanValueParser.read(StatefulCharReader(it))) }
+        sources.forEach { assertEquals(true, JsonBooleanValueParser.read(JsonReader(it))) }
 
     }
 
@@ -23,7 +23,7 @@ class JsonBooleanValueParserTest {
 
         val sources = arrayOf("false", "False", "fAlSe", "FALSE")
 
-        sources.forEach { assertEquals(false, JsonBooleanValueParser.read(StatefulCharReader(it))) }
+        sources.forEach { assertEquals(false, JsonBooleanValueParser.read(JsonReader(it))) }
 
     }
 
@@ -32,7 +32,7 @@ class JsonBooleanValueParserTest {
 
         val sources = arrayOf("abcd", "489", "falsed", "null")
 
-        sources.forEach { JsonBooleanValueParser.read(StatefulCharReader(it)) }
+        sources.forEach { JsonBooleanValueParser.read(JsonReader(it)) }
 
     }
 

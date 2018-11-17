@@ -1,10 +1,10 @@
 package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
-import me.benjozork.kson.parser.Token
+import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonNumberValueException
 import me.benjozork.kson.parser.exception.IllegalJsonNumberTokenException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses a number in the JSON-legal number format
@@ -22,11 +22,11 @@ object JsonNumberValueParser : Parser<Number>() {
     /**
      * This is called to parse a JSON-legal number.
      *
-     * @param reader the [StatefulCharReader] to read off of
+     * @param reader the [JsonReader] to read off of
      *
      * @return the parsed JSON-legal number
      */
-    override fun read(reader: StatefulCharReader): Number {
+    override fun read(reader: JsonReader): Number {
 
         var currentString = ""
 
@@ -34,9 +34,9 @@ object JsonNumberValueParser : Parser<Number>() {
 
             if (reader.currentChar.isWhitespace()
                 || reader.currentChar == '\n'
-                || reader.currentChar == Token.ENTRY_SEPARATOR.char
-                || reader.currentChar == Token.OBJECT_END.char
-                || reader.currentChar == Token.ARRAY_END.char
+                || reader.currentChar == JsonToken.ENTRY_SEPARATOR.char
+                || reader.currentChar == JsonToken.OBJECT_END.char
+                || reader.currentChar == JsonToken.ARRAY_END.char
                 || reader.currentChar == 0xFFFF.toChar()) {
 
                 break@readLoop

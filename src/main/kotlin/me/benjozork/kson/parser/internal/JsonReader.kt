@@ -1,5 +1,7 @@
 package me.benjozork.kson.parser.internal
 
+import me.benjozork.kson.common.TextPosition
+
 import java.io.StringReader
 
 /**
@@ -7,20 +9,20 @@ import java.io.StringReader
  *
  * @property s the [String] to read off of
  *
- * @constructor create a new [StatefulCharReader] off of a [String] `s`
+ * @constructor create a new [JsonReader] off of a [String] `s`
  *
  * @author Benjozork
  */
-class StatefulCharReader(val s: String) {
+class JsonReader(val s: String) {
 
-    private var reader   = StringReader(s)
+    private var reader = StringReader(s)
 
     val numLines = s.lines().size
 
     var currentChar: Char = reader.read().toChar()
         private set
 
-    var position = ReaderPosition()
+    var position = TextPosition()
         private set
 
     private var doNewLine = false

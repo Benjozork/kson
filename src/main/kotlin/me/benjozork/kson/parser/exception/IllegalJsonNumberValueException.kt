@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser.exception
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Defines an error caused by an invalid JSON number.
@@ -14,7 +14,7 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 class IllegalJsonNumberValueException (
 
-         reader: StatefulCharReader,
+    reader: JsonReader,
     actualValue: String
 
 ) : KsonParserException("illegal number value \"$actualValue\": does not match against regex", reader.position)

@@ -1,7 +1,9 @@
 package me.benjozork.kson.parser
 
+import me.benjozork.kson.common.JsonToken
+
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 import me.benjozork.kson.parser.value.JsonValueParser
 
 /**
@@ -14,11 +16,11 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
     /**
      * This is called to parse a JSON object.
      *
-     * @param reader the [StatefulCharReader] to read off of
+     * @param reader the [JsonReader] to read off of
      *
      * @return the parsed object
      */
-    override fun read(reader: StatefulCharReader): HashMap<String, Any> {
+    override fun read(reader: JsonReader): HashMap<String, Any> {
 
         // Temp map and entry
         val tempMap = hashMapOf<String, Any>()
@@ -45,7 +47,7 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                 ObjectState.WAITING_FOR_FIRST_KEY -> {
 
-                    if (reader.currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
+                    if (reader.currentChar == JsonToken.STRING_LITERAL_DELIM.char) { // Found a key, parse it
 
                         // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
                         // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
@@ -56,17 +58,17 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                         currentState = ObjectState.WAITING_FOR_VALUE
 
                         continue@readLoop
-                    } else if (reader.currentChar == Token.OBJECT_END.char) {
+                    } else if (reader.currentChar == JsonToken.OBJECT_END.char) {
                         break@readLoop
                     } else {
-                        throw IllegalJsonTokenException(reader, Token.STRING_LITERAL_DELIM)
+                        throw IllegalJsonTokenException(reader, JsonToken.STRING_LITERAL_DELIM)
                     }
 
                 }
 
                 ObjectState.WAITING_FOR_KEY -> {
 
-                    if (reader.currentChar == Token.STRING_LITERAL_DELIM.char) { // Found a key, parse it
+                    if (reader.currentChar == JsonToken.STRING_LITERAL_DELIM.char) { // Found a key, parse it
 
                         // It's important that this reader leaves this JsonKeyParser at position after the key, usually a colon
                         // UNQUOTED KEYS ARE NOT VALID JSON AND THEREFORE WILL NEVER BE ACCEPTED IN THIS PARSER.
@@ -78,19 +80,19 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                         continue@readLoop
                     } else {
-                        throw IllegalJsonTokenException(reader, Token.STRING_LITERAL_DELIM)
+                        throw IllegalJsonTokenException(reader, JsonToken.STRING_LITERAL_DELIM)
                     }
 
                 }
 
                 ObjectState.WAITING_FOR_VALUE -> {
 
-                    if (reader.currentChar == Token.VALUE_ASSIGNMENT.char) {
+                    if (reader.currentChar == JsonToken.VALUE_ASSIGNMENT.char) {
                         // Found a value, change state
                         currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
                     } else {
                         // Whitespace is already ignored so we can else-check for other chars and throw an error
-                        throw IllegalJsonTokenException(reader, Token.VALUE_ASSIGNMENT)
+                        throw IllegalJsonTokenException(reader, JsonToken.VALUE_ASSIGNMENT)
                     }
 
                 }
@@ -110,15 +112,15 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                 ObjectState.WAITING_FOR_NEXT_OR_END -> {
 
-                    if (reader.currentChar == Token.ENTRY_SEPARATOR.char) {
+                    if (reader.currentChar == JsonToken.ENTRY_SEPARATOR.char) {
                         // We have found a comma, now wait for another key
                         tempKey = ""; tempValue = "" // We reset the temp key and value
                         currentState = ObjectState.WAITING_FOR_KEY
-                    } else if (reader.currentChar == Token.OBJECT_END.char) {
+                    } else if (reader.currentChar == JsonToken.OBJECT_END.char) {
                         // We are done parsing the object
                         break@readLoop
                     } else {
-                        throw IllegalJsonTokenException(reader, Token.ENTRY_SEPARATOR, Token.OBJECT_END)
+                        throw IllegalJsonTokenException(reader, JsonToken.ENTRY_SEPARATOR, JsonToken.OBJECT_END)
                     }
 
                 }

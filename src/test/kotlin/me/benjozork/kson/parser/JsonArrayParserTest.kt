@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -30,9 +30,9 @@ class JsonArrayParserTest {
 
         val expectedArray = listOf("abcd", "efgh", "ijkl", "mnop", 29, 2.35e-9, true, false)
 
-        assertEquals(expectedArray, JsonArrayParser.read(StatefulCharReader(source)))
-        assertEquals(expectedArray, JsonArrayParser.read(StatefulCharReader(sourceSingleLine)))
-        assertEquals(listOf<Any>(), JsonArrayParser.read(StatefulCharReader(sourceEmpty)))
+        assertEquals(expectedArray, JsonArrayParser.read(JsonReader(source)))
+        assertEquals(expectedArray, JsonArrayParser.read(JsonReader(sourceSingleLine)))
+        assertEquals(listOf<Any>(), JsonArrayParser.read(JsonReader(sourceEmpty)))
 
     }
 

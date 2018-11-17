@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -17,7 +17,7 @@ class JsonKeyParserTest {
             """"\"\"\""""" to """""""""
         )
 
-        source.forEach { key, value -> assertEquals(value, JsonKeyParser.read(StatefulCharReader(key))) }
+        source.forEach { key, value -> assertEquals(value, JsonKeyParser.read(JsonReader(key))) }
 
     }
 

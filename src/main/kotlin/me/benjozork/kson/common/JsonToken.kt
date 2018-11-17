@@ -1,13 +1,13 @@
-package me.benjozork.kson.parser
+package me.benjozork.kson.common
 
 /**
  * A list of valid JSON tokens
  *
- * @property char the [Char] value representing this [Token]
+ * @property char the [Char] value representing this [JsonToken]
  *
  * @author Benjozork
  */
-enum class Token(val char: Char) {
+enum class JsonToken(val char: Char) {
 
     OBJECT_START         ('{'),
     OBJECT_END           ('}'),

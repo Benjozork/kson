@@ -1,9 +1,9 @@
 package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.Parser
-import me.benjozork.kson.parser.Token
+import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonAbsoluteValue
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses JSON boolean values
@@ -12,7 +12,7 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 object JsonBooleanValueParser : Parser<Boolean>() {
 
-    override fun read(reader: StatefulCharReader): Boolean {
+    override fun read(reader: JsonReader): Boolean {
 
         val booleanTrue = "true"
         val booleanFalse = "false"
@@ -26,9 +26,9 @@ object JsonBooleanValueParser : Parser<Boolean>() {
             // Is it the end of the value ?
             if (reader.currentChar.isWhitespace()
                 || reader.currentChar == '\n'
-                || reader.currentChar == Token.ENTRY_SEPARATOR.char
-                || reader.currentChar == Token.OBJECT_END.char
-                || reader.currentChar == Token.ARRAY_END.char
+                || reader.currentChar == JsonToken.ENTRY_SEPARATOR.char
+                || reader.currentChar == JsonToken.OBJECT_END.char
+                || reader.currentChar == JsonToken.ARRAY_END.char
                 || reader.currentChar == (-1).toChar()) {
                 break@readLoop
             // If not, we add the current char to the string and go to the next one

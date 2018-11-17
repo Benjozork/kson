@@ -3,9 +3,9 @@ package me.benjozork.kson.parser.value
 import me.benjozork.kson.parser.JsonArrayParser
 import me.benjozork.kson.parser.JsonObjectParser
 import me.benjozork.kson.parser.Parser
-import me.benjozork.kson.parser.Token
+import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses JSON values like strings, numbers, arrays, booleans, nulls and objects
@@ -20,11 +20,11 @@ object JsonValueParser : Parser<Any>() {
     /**
      * Method that reads JSON values like strings, numbers, arrays, booleans, nulls and objects
      *
-     * @param reader the current [StatefulCharReader]. This MUST currently be on the first char of the value that we want to parse
+     * @param reader the current [JsonReader]. This MUST currently be on the first char of the value that we want to parse
      *
      * @return the resulting value
      */
-    override fun read(reader: StatefulCharReader): Any {
+    override fun read(reader: JsonReader): Any {
 
         return when (reader.currentChar.toLowerCase()) {
 
@@ -36,24 +36,24 @@ object JsonValueParser : Parser<Any>() {
                 JsonBooleanValueParser.read(reader)
             }
 
-            Token.OBJECT_START.char -> {
+            JsonToken.OBJECT_START.char -> {
                 JsonObjectParser.read(reader)
             }
 
-            Token.ARRAY_START.char -> {
+            JsonToken.ARRAY_START.char -> {
                 JsonArrayParser.read(reader)
             }
 
-            Token.STRING_LITERAL_DELIM.char -> {
+            JsonToken.STRING_LITERAL_DELIM.char -> {
                 JsonStringValueParser.read(reader)
             }
 
             else -> {
-                throw IllegalJsonTokenException(reader, Token.OBJECT_START,
-                                                        Token.ARRAY_START,
-                                                        Token.STRING_LITERAL_DELIM,
-                                                        Token.NUMBER_TOKEN,
-                                                        Token.ABSOLUTE_VALUE_TOKEN)
+                throw IllegalJsonTokenException(reader, JsonToken.OBJECT_START,
+                                                        JsonToken.ARRAY_START,
+                                                        JsonToken.STRING_LITERAL_DELIM,
+                                                        JsonToken.NUMBER_TOKEN,
+                                                        JsonToken.ABSOLUTE_VALUE_TOKEN)
             }
         }
 

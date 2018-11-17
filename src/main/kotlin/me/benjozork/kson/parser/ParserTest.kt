@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 object ParserTest {
 
@@ -26,7 +26,7 @@ object ParserTest {
 
     fun parse() {
 
-        val reader = StatefulCharReader(arrayTest)
+        val reader = JsonReader(arrayTest)
 
         val timeBefore = System.currentTimeMillis()
         println(JsonArrayParser.read(reader))

@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses object of type [T]
@@ -11,6 +11,6 @@ import me.benjozork.kson.parser.internal.StatefulCharReader
  */
 abstract class Parser<T> {
 
-    abstract fun read(reader: StatefulCharReader) : T
+    abstract fun read(reader: JsonReader) : T
 
 }

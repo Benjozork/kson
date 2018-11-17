@@ -1,7 +1,7 @@
 package me.benjozork.kson.parser
 
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 import org.junit.Test
 
@@ -39,9 +39,9 @@ class JsonObjectParserTest {
             "z" to 0.215e-9
         )
 
-        assertEquals(expectedObject, JsonObjectParser.read(StatefulCharReader(source)))
-        assertEquals(expectedObject, JsonObjectParser.read(StatefulCharReader(sourceSingleLine)))
-        assertEquals(mapOf<String, Any>(), JsonObjectParser.read(StatefulCharReader(sourceEmpty)))
+        assertEquals(expectedObject, JsonObjectParser.read(JsonReader(source)))
+        assertEquals(expectedObject, JsonObjectParser.read(JsonReader(sourceSingleLine)))
+        assertEquals(mapOf<String, Any>(), JsonObjectParser.read(JsonReader(sourceEmpty)))
 
     }
 
@@ -55,7 +55,7 @@ class JsonObjectParserTest {
         }
         """.trimIndent()
 
-        JsonObjectParser.read(StatefulCharReader(source))
+        JsonObjectParser.read(JsonReader(source))
     }
 
     @Test(expected = IllegalJsonTokenException::class)
@@ -68,7 +68,7 @@ class JsonObjectParserTest {
         }
         """.trimIndent()
 
-        JsonObjectParser.read(StatefulCharReader(source))
+        JsonObjectParser.read(JsonReader(source))
     }
 
     @Test(expected = IllegalJsonTokenException::class)
@@ -81,7 +81,7 @@ class JsonObjectParserTest {
         }
         """.trimIndent()
 
-        JsonObjectParser.read(StatefulCharReader(source))
+        JsonObjectParser.read(JsonReader(source))
     }
 
 }

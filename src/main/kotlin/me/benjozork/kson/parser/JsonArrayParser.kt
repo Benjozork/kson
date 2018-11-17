@@ -1,7 +1,8 @@
 package me.benjozork.kson.parser
 
+import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 import me.benjozork.kson.parser.value.JsonValueParser
 
 /**
@@ -14,11 +15,12 @@ object JsonArrayParser : Parser<List<Any>>() {
     /**
      * This is called to parse a JSON array.
      *
-     * @param reader the [StatefulCharReader] to read off of
+     * @param reader the [JsonReader] to read off of
+     *
      *
      * @return the parsed array
      */
-    override fun read(reader: StatefulCharReader): List<Any> {
+    override fun read(reader: JsonReader): List<Any> {
 
         val returnValues = mutableListOf<Any>()
 
@@ -41,7 +43,7 @@ object JsonArrayParser : Parser<List<Any>>() {
                     // We do not have to skip whitespace or newlines since it's already done
                     // Parse the value
 
-                    if (reader.currentChar == Token.ARRAY_END.char) { // Allow for empty arrays
+                    if (reader.currentChar == JsonToken.ARRAY_END.char) { // Allow for empty arrays
                         break@readLoop
                     }
 
@@ -60,15 +62,15 @@ object JsonArrayParser : Parser<List<Any>>() {
 
                 ArrayState.WAITING_FOR_NEXT_OR_END -> {
 
-                    if (reader.currentChar == Token.ENTRY_SEPARATOR.char) {
+                    if (reader.currentChar == JsonToken.ENTRY_SEPARATOR.char) {
                         currentState = ArrayState.WAITING_FOR_VALUE
                         reader.read() // This is necessary because we want the loop to process what is AFTER the comma
                         continue@readLoop
-                    } else if (reader.currentChar == Token.ARRAY_END.char) {
+                    } else if (reader.currentChar == JsonToken.ARRAY_END.char) {
                         // We are done parsing the object
                         break@readLoop
                     } else {
-                        throw IllegalJsonTokenException(reader, Token.ENTRY_SEPARATOR, Token.ARRAY_END)
+                        throw IllegalJsonTokenException(reader, JsonToken.ENTRY_SEPARATOR, JsonToken.ARRAY_END)
                     }
 
                 }

@@ -1,6 +1,6 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses JSON entry keys. Not to be confused with [JsonValueParser]
@@ -14,11 +14,11 @@ object JsonKeyParser : Parser<String>() {
      * This is called to parse a JSON entry key. Not to be confused with [JsonValueParser]
      * which takes care of actual string literal values.
      *
-     * @param reader the [StatefulCharReader] to read off of
+     * @param reader the [JsonReader] to read off of
      *
      * @return the parsed key
      */
-    override fun read(reader: StatefulCharReader): String {
+    override fun read(reader: JsonReader): String {
 
         var returnedKey = ""
 

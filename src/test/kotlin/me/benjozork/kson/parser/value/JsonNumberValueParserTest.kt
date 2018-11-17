@@ -2,7 +2,7 @@ package me.benjozork.kson.parser.value
 
 import me.benjozork.kson.parser.exception.IllegalJsonNumberTokenException
 import me.benjozork.kson.parser.exception.IllegalJsonNumberValueException
-import me.benjozork.kson.parser.internal.StatefulCharReader
+import me.benjozork.kson.parser.internal.JsonReader
 
 import org.junit.Test
 
@@ -21,7 +21,7 @@ class JsonNumberValueParserTest {
 
         shouldSucceed.forEach { source, actual ->
 
-            val result = JsonNumberValueParser.read(StatefulCharReader(source))
+            val result = JsonNumberValueParser.read(JsonReader(source))
 
             assertEquals(actual, result)
             assertEquals(Int::class, result::class)
@@ -40,7 +40,7 @@ class JsonNumberValueParserTest {
 
         shouldSucceed.forEach { source, actual ->
 
-            val result = JsonNumberValueParser.read(StatefulCharReader(source))
+            val result = JsonNumberValueParser.read(JsonReader(source))
 
             assertEquals(actual, result)
             assertEquals(Double::class, result::class)
@@ -62,7 +62,7 @@ class JsonNumberValueParserTest {
 
         shouldSucceed.forEach { source, actual ->
 
-            val result = JsonNumberValueParser.read(StatefulCharReader(source))
+            val result = JsonNumberValueParser.read(JsonReader(source))
 
             assertEquals(actual, result)
             assertEquals(Double::class, result::class)
@@ -84,7 +84,7 @@ class JsonNumberValueParserTest {
 
         shouldSucceed.forEach { source, actual ->
 
-            val result = JsonNumberValueParser.read(StatefulCharReader(source))
+            val result = JsonNumberValueParser.read(JsonReader(source))
 
             assertEquals(actual, result)
             assertEquals(Double::class, result::class)
@@ -95,13 +95,13 @@ class JsonNumberValueParserTest {
     @Test(expected = IllegalJsonNumberValueException::class)
     fun numberFailDoesNotMatchRegexTest() {
         val shouldFail  = arrayOf("12ee.", "1+e", "0-", "1+", "e", "0E", "1e123", "e7", "E7", "e-7", "E-7")
-        shouldFail.forEach { JsonNumberValueParser.read(StatefulCharReader(it)) }
+        shouldFail.forEach { JsonNumberValueParser.read(JsonReader(it)) }
     }
 
     @Test(expected = IllegalJsonNumberTokenException::class)
     fun numberFailIllegalTokenTest() {
         val shouldFail  = arrayOf("12ae.", "e1nne", "0=", "1+", "e", "aE", "aaa")
-        shouldFail.forEach { JsonNumberValueParser.read(StatefulCharReader(it)) }
+        shouldFail.forEach { JsonNumberValueParser.read(JsonReader(it)) }
     }
 
 }
