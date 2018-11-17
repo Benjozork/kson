@@ -15,7 +15,7 @@ object JsonArrayWriter : Writer<List<Any>>() {
         writer.addIndent()
         writer.newline()
 
-        data.forEachIndexed { index, element ->
+        data?.forEachIndexed { index, element ->
 
             JsonValueWriter.print(writer, element)
 

@@ -26,7 +26,7 @@ class JsonWriter(private val builder: StringBuilder) {
 
     fun remIndent() = indentLevel--
 
-    fun newline() = append("\n${" -> ".repeat(indentLevel)}")
+    fun newline() = append("\n${"    ".repeat(indentLevel)}")
 
     fun whitespace() = append(" ")
 

@@ -9,7 +9,7 @@ object JsonStringValueWriter : Writer<String>() {
 
     override fun print(writer: JsonWriter, data: String) {
 
-        var finalString = "" + data // Make sure we copy the string
+        val finalString = "" + data // Make sure we copy the string
 
         finalString.replace("\"", "\\\"")
 

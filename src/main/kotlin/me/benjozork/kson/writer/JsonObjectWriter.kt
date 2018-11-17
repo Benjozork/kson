@@ -4,9 +4,9 @@ import me.benjozork.kson.common.JsonToken
 
 import me.benjozork.kson.writer.value.JsonValueWriter
 
-object JsonObjectWriter : Writer<Map<String, Any>>() {
+object JsonObjectWriter : Writer<Map<String, Any?>>() {
 
-    override fun print(writer: JsonWriter, data: Map<String, Any>) {
+    override fun print(writer: JsonWriter, data: Map<String, Any?>) {
 
         // Write array start
 
