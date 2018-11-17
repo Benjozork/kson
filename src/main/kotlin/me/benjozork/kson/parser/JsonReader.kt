@@ -17,9 +17,14 @@ class JsonReader(val s: String) {
 
     private var reader = StringReader(s)
 
+    val ctx = JsonParserContext()
+
     val numLines = s.lines().size
 
     var currentChar: Char = reader.read().toChar()
+        private set
+
+    var currentLine: String = ""
         private set
 
     var position = TextPosition()
@@ -40,10 +45,14 @@ class JsonReader(val s: String) {
         if (doNewLine) {
             position.line++
             position.col = 0
+
+            currentLine = ""
+
             doNewLine = false
         }
 
         currentChar = temp
+        currentLine += temp
 
         // This works regardless of line separator
         if (currentChar == '\n') doNewLine = true

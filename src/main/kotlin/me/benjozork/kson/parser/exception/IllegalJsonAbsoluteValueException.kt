@@ -1,7 +1,6 @@
 package me.benjozork.kson.parser.exception
 
 import me.benjozork.kson.parser.JsonReader
-
 import me.benjozork.kson.parser.value.JsonValueParser
 
 /**
@@ -13,6 +12,8 @@ import me.benjozork.kson.parser.value.JsonValueParser
  * @author Benjozork
  */
 class IllegalJsonAbsoluteValueException (
-    actualValue: String,
-         reader: JsonReader
-) : KsonParserException("unknown absolute value \"$actualValue\": expected \"true\", \"false\" or a number", reader.position)
+         reader: JsonReader,
+    actualValue: String
+) : KsonParserException(
+    "unknown absolute value \"$actualValue\": expected \"true\", \"false\" or a number", reader
+)

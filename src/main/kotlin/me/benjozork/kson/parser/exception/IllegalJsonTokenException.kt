@@ -13,11 +13,9 @@ import me.benjozork.kson.common.JsonToken
  * @author Benjozork
  */
 class IllegalJsonTokenException (
-
     reader: JsonReader,
     vararg expectedTokens: JsonToken
-
-) : KsonParserException (generateMessage(expectedTokens, reader.currentChar), reader.position)
+) : KsonParserException (generateMessage(expectedTokens, reader.currentChar), reader)
 
 private fun generateMessage(expectedTokens: Array<out JsonToken>, actualToken: Char): String {
 

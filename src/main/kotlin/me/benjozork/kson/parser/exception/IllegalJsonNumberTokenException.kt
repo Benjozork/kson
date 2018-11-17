@@ -10,5 +10,7 @@ import me.benjozork.kson.parser.JsonReader
  * @author Benjozork
  */
 class IllegalJsonNumberTokenException (
-      reader: JsonReader
-) : KsonParserException("unknown number token \'${reader.currentChar}\': expected a valid JSON number token. See JSON spec for detail", reader.position)
+    reader: JsonReader
+) : KsonParserException(
+    "unknown number token \'${reader.currentChar}\': expected a valid JSON number token. See JSON spec for detail", reader
+)

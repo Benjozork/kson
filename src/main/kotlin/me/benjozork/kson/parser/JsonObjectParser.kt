@@ -1,9 +1,9 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.common.JsonToken
-
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
 import me.benjozork.kson.parser.value.JsonValueParser
+
+import me.benjozork.kson.common.JsonToken
 
 /**
  * Parses JSON objects with their keys and values
@@ -29,6 +29,12 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
         // The current parsing state
         var currentState = ObjectState.WAITING_FOR_FIRST_KEY
+        reader.ctx.setCurrentState(ObjectState.WAITING_FOR_FIRST_KEY)
+
+            fun setState(state: ObjectState) {
+                currentState = state
+                reader.ctx.setCurrentState(state)
+            }
 
         reader.read() // We already know the first char is {
 
@@ -54,7 +60,8 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                         tempKey = key
 
-                        currentState = ObjectState.WAITING_FOR_VALUE
+                        // Change state
+                        setState(ObjectState.WAITING_FOR_VALUE)
 
                         continue@readLoop
                     } else if (reader.currentChar == JsonToken.OBJECT_END.char) {
@@ -75,7 +82,8 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                         tempKey = key
 
-                        currentState = ObjectState.WAITING_FOR_VALUE
+                        // Change state
+                        setState(ObjectState.WAITING_FOR_VALUE)
 
                         continue@readLoop
                     } else {
@@ -88,7 +96,7 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
 
                     if (reader.currentChar == JsonToken.VALUE_ASSIGNMENT.char) {
                         // Found a value, change state
-                        currentState = ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER
+                        setState(ObjectState.FOUND_VALUE_WAITING_FOR_TRIGGER)
                     } else {
                         // Whitespace is already ignored so we can else-check for other chars and throw an error
                         throw IllegalJsonTokenException(reader, JsonToken.VALUE_ASSIGNMENT)
@@ -101,10 +109,10 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                         // We do not have to skip whitespace or newlines since it's already done
 
                         // Parse the value
-                        //val value = JsonValueParser.read(reader, reader.currentChar)
                         tempValue = JsonValueParser.read(reader) // TODO actual value
 
-                        currentState = ObjectState.WAITING_FOR_NEXT_OR_END
+                        // Change state
+                        setState(ObjectState.WAITING_FOR_NEXT_OR_END)
                         continue@readLoop
                 }
 
@@ -114,7 +122,9 @@ object JsonObjectParser : Parser<MutableMap<String, Any>>() {
                     if (reader.currentChar == JsonToken.ENTRY_SEPARATOR.char) {
                         // We have found a comma, now wait for another key
                         tempKey = ""; tempValue = "" // We reset the temp key and value
-                        currentState = ObjectState.WAITING_FOR_KEY
+
+                        // Change state
+                        setState(ObjectState.WAITING_FOR_KEY)
                     } else if (reader.currentChar == JsonToken.OBJECT_END.char) {
                         // We are done parsing the object
                         reader.read()

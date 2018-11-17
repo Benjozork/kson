@@ -1,18 +1,18 @@
 package me.benjozork.kson.parser
 
-enum class ParserOptions(val i: Int) {
+enum class ParserOptions(val i: Int, val defaultValue: Boolean) {
 
-    @UnofficialSupport ALLOW_TRAILING_COMMAS_IN_OBJECTS (1),
-    @UnofficialSupport ALLOW_TRAILING_COMMAS_IN_ARRAYS  (2),
+    @UnofficialSupport ALLOW_TRAILING_COMMAS_IN_OBJECTS (1,  false),
+    @UnofficialSupport ALLOW_TRAILING_COMMAS_IN_ARRAYS  (2,  false),
 
-    @UnofficialSupport ALLOW_UNQUOTED_STRINGS           (4),
-    @UnofficialSupport ALLOW_0_AND_1_AS_BOOL_VALUES     (8),
+    @UnofficialSupport ALLOW_UNQUOTED_STRINGS           (4,  false),
+    @UnofficialSupport ALLOW_0_AND_1_AS_BOOL_VALUES     (8,  false),
 
-    @UnofficialSupport ALLOW_LINE_COMMENTS              (16),
-    @UnofficialSupport ALLOW_BLOCK_COMMENTS             (32),
+    @UnofficialSupport ALLOW_LINE_COMMENTS              (16, false),
+    @UnofficialSupport ALLOW_BLOCK_COMMENTS             (32, false),
 
     // This is used to represent an invalid option
-                       INVALID_OPTION                   (-1);
+                       INVALID_OPTION                   (-1, false);
 
     companion object {
 

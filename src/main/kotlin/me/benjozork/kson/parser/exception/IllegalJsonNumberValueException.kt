@@ -13,8 +13,6 @@ import me.benjozork.kson.parser.JsonReader
  * @author Benjozork
  */
 class IllegalJsonNumberValueException (
-
     reader: JsonReader,
     actualValue: String
-
-) : KsonParserException("illegal number value \"$actualValue\": does not match against regex", reader.position)
+) : KsonParserException("illegal number value \"$actualValue\": does not match against regex", reader)

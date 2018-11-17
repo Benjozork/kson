@@ -1,8 +1,9 @@
 package me.benjozork.kson.parser
 
-import me.benjozork.kson.common.JsonToken
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
 import me.benjozork.kson.parser.value.JsonValueParser
+
+import me.benjozork.kson.common.JsonToken
 
 /**
  * Parses JSON arrays and their values
@@ -24,6 +25,13 @@ object JsonArrayParser : Parser<List<Any>>() {
         val returnValues = mutableListOf<Any>()
 
         var currentState = ArrayState.WAITING_FOR_FIRST_VALUE
+        reader.ctx.setCurrentState(ArrayState.WAITING_FOR_FIRST_VALUE)
+
+            fun setState(state: JsonArrayParser.ArrayState) {
+                currentState = state
+                reader.ctx.setCurrentState(state)
+            }
+
 
         // The first char is always '['
         reader.read()
@@ -47,7 +55,10 @@ object JsonArrayParser : Parser<List<Any>>() {
                     }
 
                     returnValues.add(JsonValueParser.read(reader))
-                    currentState = ArrayState.WAITING_FOR_NEXT_OR_END
+
+                    // Change state
+                    setState(ArrayState.WAITING_FOR_NEXT_OR_END)
+
                     continue@readLoop
                 }
 
@@ -55,14 +66,20 @@ object JsonArrayParser : Parser<List<Any>>() {
                     // We do not have to skip whitespace or newlines since it's already done
                     // Parse the value
                     returnValues.add(JsonValueParser.read(reader))
-                    currentState = ArrayState.WAITING_FOR_NEXT_OR_END
+
+                    // Change state
+                    setState(ArrayState.WAITING_FOR_NEXT_OR_END)
+
                     continue@readLoop
                 }
 
                 ArrayState.WAITING_FOR_NEXT_OR_END -> {
 
                     if (reader.currentChar == JsonToken.ENTRY_SEPARATOR.char) {
-                        currentState = ArrayState.WAITING_FOR_VALUE
+
+                        // Change state
+                        setState(ArrayState.WAITING_FOR_VALUE)
+
                         reader.read() // This is necessary because we want the loop to process what is AFTER the comma
                         continue@readLoop
                     } else if (reader.currentChar == JsonToken.ARRAY_END.char) {

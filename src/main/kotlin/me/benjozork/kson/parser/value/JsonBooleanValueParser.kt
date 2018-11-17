@@ -34,7 +34,7 @@ object JsonBooleanValueParser : Parser<Boolean>() {
                         it == reader.currentChar.toLowerCase()
                     }
             ) {
-                throw IllegalJsonAbsoluteValueException(currentString, reader)
+                throw IllegalJsonAbsoluteValueException(reader, currentString)
             } else {
                 currentString += reader.currentChar
             }
@@ -50,7 +50,7 @@ object JsonBooleanValueParser : Parser<Boolean>() {
         returnValue = when (sanitizedString) {
             booleanTrue -> true
             booleanFalse -> false
-            else -> throw IllegalJsonAbsoluteValueException(currentString, reader)
+            else -> throw IllegalJsonAbsoluteValueException(reader, currentString)
         }
 
         return returnValue

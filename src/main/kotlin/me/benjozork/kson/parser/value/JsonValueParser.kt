@@ -1,10 +1,7 @@
 package me.benjozork.kson.parser.value
 
+import me.benjozork.kson.parser.*
 import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.JsonReader
-import me.benjozork.kson.parser.JsonArrayParser
-import me.benjozork.kson.parser.JsonObjectParser
-import me.benjozork.kson.parser.Parser
 
 import me.benjozork.kson.common.JsonToken
 
@@ -51,10 +48,10 @@ object JsonValueParser : Parser<Any>() {
 
             else -> {
                 throw IllegalJsonTokenException(reader, JsonToken.OBJECT_START,
-                                                        JsonToken.ARRAY_START,
-                                                        JsonToken.STRING_LITERAL_DELIM,
-                                                        JsonToken.NUMBER_TOKEN,
-                                                        JsonToken.ABSOLUTE_VALUE_TOKEN)
+                                                             JsonToken.ARRAY_START,
+                                                             JsonToken.STRING_LITERAL_DELIM,
+                                                             JsonToken.NUMBER_TOKEN,
+                                                             JsonToken.ABSOLUTE_VALUE_TOKEN)
             }
         }
 
