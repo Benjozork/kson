@@ -22,7 +22,7 @@ If anyone sees this and is willing to help, feel free to open an issue or PR!
     - Tidying up the code in `parser`  
     - Adding missing functionality to `writer` (notably number/bool serialize)  
     
-**Here what's planned after that**:  
+**Here's what's planned after that**:  
     - Adding complementary functionality to `parser`/`reader` (format tolerance options, printing options (raw, prettyprint, etc))  
     - Object composition (constructor, inject, type mapping with annotations to reduce the need for custom serializers)  
     - JSON schema validation  
