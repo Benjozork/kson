@@ -1,11 +1,12 @@
 package me.benjozork.kson.parser.value
 
+import me.benjozork.kson.parser.exception.IllegalJsonTokenException
+import me.benjozork.kson.parser.internal.JsonReader
 import me.benjozork.kson.parser.JsonArrayParser
 import me.benjozork.kson.parser.JsonObjectParser
 import me.benjozork.kson.parser.Parser
+
 import me.benjozork.kson.common.JsonToken
-import me.benjozork.kson.parser.exception.IllegalJsonTokenException
-import me.benjozork.kson.parser.internal.JsonReader
 
 /**
  * Parses JSON values like strings, numbers, arrays, booleans, nulls and objects
